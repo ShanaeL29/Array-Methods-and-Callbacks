@@ -34,11 +34,14 @@ hint - you should be looking at the stage key inside of the objects
 //filter here - to filter for the stage of final
 //returning the array
 
-function getFinals(/* code here */) {
-    /* code here */
+function getFinals(data) {
+    const newArray = data.filter(function (item) {
+        return item.Stage === "Final"
+    });
+    return newArray;
 }
 
-
+console.log("task 2:", getFinals(fifaData));
 
 /* 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀 Task 3: 🚀🚀🚀🚀🚀🚀🚀🚀🚀🚀
 Use the higher-order function called getYears to do the following: 
@@ -46,9 +49,15 @@ Use the higher-order function called getYears to do the following:
 2. Receive a callback function getFinals from task 2 
 3. Return an array called years containing all of the years in the getFinals data set*/
 
-function getYears(/* code here */) {
-    /* code here */
+function getYears(data, getFinalscb) {
+    const years = getFinalscb(data).map(function (item) {
+        return item.Year;
+    })
+    return years;
 }
+
+console.log("task 3:", getYears(fifaData, getFinals));
+
 //receive data (fifaData)/  getFinalscb
 //map through the finals cb to get all of the years (item.Year)
 //return the array
@@ -61,11 +70,29 @@ Use the higher-order function getWinners to do the following:
 3. Determines the winner (home or away) of each `finals` game. 
 4. Returns the names of all winning countries in an array called `winners` */
 
-function getWinners(/* code here */) {
-    /* code here */
+function getWinners(data, getFinalscb) {
+    const winners = getFinalscb(data).map(function (item) {
+        if (item["Home Team Goals"] > item["Away Team Goals"]) {
+            return item["Home Team Name"];
+        } else {
+            return item["Away Team Name"];
+        }
+    })
+    return winners;
 }
+
+console.log("task 4:", getWinners(fifaData, getFinals));
+
+//another way
+//function getWinners(data, getFinalscb) {
+//  return getFinalscb(data).map(item =>["Home Team Goals"] > item["Away Team Goals"] ? item["Home Team Name"] : item["Away Team Name"]);)
+//} //else is what is after the colon ? says condition goes before if true return this else: return this
+//console.log ("task 4:", getWinners(fifaData, getFinals))
+
+
 //receive 2 parameters - data (fifaData) / getFinalscb
 //want an array of winners
+
 
 
 
@@ -80,9 +107,18 @@ Use the higher-order function getWinnersByYear to do the following:
 hint: the strings returned need to exactly match the string in step 4.
  */
 
-function getWinnersByYear(/* code here */) {
-    /* code here */
+function getWinnersByYear(data, getYearscb, getWinnerscb) {
+    const winners = getWinnerscb(data, getFinals);
+    console.log("winners", winners);
+    const years = getYearscb(data, getFinals);
+    console.log("years", years)
+    return winners.map(function (item, index) {
+        return `In ${years[index]}, ${item} won the world cup!`
+    })
 }
+//return winners.map((item, index)=> `In ${years[index]}, ${item} won the world cup`); //arrow function version
+console.log("task 5:", getWinnersByYear(fifaData, getYears, getWinners));
+
 //probably use map here
 
 
@@ -97,9 +133,16 @@ Use the higher order function getAverageGoals to do the following:
  Example of invocation: getAverageGoals(getFinals(fifaData));
 */
 
-function getAverageGoals(/* code here */) {
-    /* code here */
+function getAverageGoals(getFinalscb) {
+    const averageTeamGoals = getFinalscb.reduce(function (acc, item) {
+        return acc + item["Home Team Goals"] + item["Away Team Goals"];
+        //accumulater//
+    }, 0);
+
+    //arrow function version: const averageTeamGoals = getFinalscb.reduce(acc, item)=>acc + item["Home Team Goals"] + item["Away Team Goals"],0);
+    return (averageTeamGoals / getFinalscb.length).toFixed(2)//how many decimal places we want
 }
+console.log("task 6:", getAverageGoals(getFinals(fifaData)));
 //people get tripped up getting things to a second decimal place. Look up .toFixed()
 
 
@@ -112,11 +155,14 @@ Create a function called `getCountryWins` that takes the parameters `data` and `
 Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
-function getCountryWins(/* code here */) {
-
+function getCountryWins(data, initials) {
+    // const filteredArray = data.filter(item => initials === item["Home Team Initials"] || initials === item["Away Team Initials"]);
+    // console.log(fileteredArray)
+    // const worldCupWins = filteredArray.filter()
     /* code here */
-
 }
+
+// console.log("Stretch 1:", getCountryWins(fifaData, "GER"));
 
 
 
