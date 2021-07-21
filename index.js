@@ -57,6 +57,11 @@ function getYears(data, getFinalscb) {
 }
 
 console.log("task 3:", getYears(fifaData, getFinals));
+//another method!
+//const finalYears = getFinals();
+//const years = [];
+//finalYears.forEach(game=>{years.push(game.Year)})
+//return years;
 
 //receive data (fifaData)/  getFinalscb
 //map through the finals cb to get all of the years (item.Year)
@@ -109,9 +114,9 @@ hint: the strings returned need to exactly match the string in step 4.
 
 function getWinnersByYear(data, getYearscb, getWinnerscb) {
     const winners = getWinnerscb(data, getFinals);
-    console.log("winners", winners);
+    // console.log("winners", winners);
     const years = getYearscb(data, getFinals);
-    console.log("years", years)
+    // console.log("years", years)
     return winners.map(function (item, index) {
         return `In ${years[index]}, ${item} won the world cup!`
     })
@@ -136,7 +141,7 @@ Use the higher order function getAverageGoals to do the following:
 function getAverageGoals(getFinalscb) {
     const averageTeamGoals = getFinalscb.reduce(function (acc, item) {
         return acc + item["Home Team Goals"] + item["Away Team Goals"];
-        //accumulater//
+        //acc = accumulater//
     }, 0);
 
     //arrow function version: const averageTeamGoals = getFinalscb.reduce(acc, item)=>acc + item["Home Team Goals"] + item["Away Team Goals"],0);
@@ -156,11 +161,48 @@ Hint: Investigate your data to find "team initials"!
 Hint: use `.reduce` */
 
 function getCountryWins(data, initials) {
-    // const filteredArray = data.filter(item => initials === item["Home Team Initials"] || initials === item["Away Team Initials"]);
-    // console.log(fileteredArray)
-    // const worldCupWins = filteredArray.filter()
-    /* code here */
+    const worldCupFinal = data.filter(item => item.Stage === "Final");
+    return worldCupFinal.reduce((win, item) => {
+        if (item["Home Team Initials"] === initials && item["Home Team Goals"] > item["Away Team Goals"]) {
+            return ++win;
+        } else if (item["Away Team Initials"] === initials && item["Away Team Goals"] > item["Home Team Goals"]) {
+            return ++win;
+        } else {
+            return win;
+        }
+    }, 0)
 }
+
+console.log("Stretch 1:", getCountryWins(fifaData, "BRA"))
+// const worldCupFinal = array.filter(item => item.Stage === "Final");
+// const filteredArray = worldCupFinal.filter(item => initials === item["Home Team Initials"] || initials === item["Away Team Initials"]);
+
+
+//     const worldCupWins = getFinalscb(data).map(function (item) {
+
+//         if (item["Home Team Goals"] > item["Away Team Goals"]) {
+//             return item["Home Team Initials"];
+//         } else {
+//             return item["Away Team Initials"];
+//         }
+//     })
+//     return winners;
+// }
+
+// console.log(fileteredArray)
+// const worldCupWins = filteredArray.filter()
+/* code here */
+// const worldCupGames = array.filter(item => item.Stage === 'Final');
+// const worldCupWinners = worldCupGames.map(item => item['Home Team Goals'] > item['Away Team Goals'] ? item["Home Team Initials"] : item['Away Team Initials'])
+
+// const numberOfWins = worldCupWinners.reduce((acc, item) {
+//     if (item === initials) {
+//         acc +=
+//     }
+// }, 0)
+// return numberOfWins;
+
+
 
 // console.log("Stretch 1:", getCountryWins(fifaData, "GER"));
 
@@ -170,7 +212,7 @@ function getCountryWins(data, initials) {
 Write a function called getGoals() that accepts a parameter `data` and returns the team with the most goals score per appearance (average goals for) in the World Cup finals */
 
 function getGoals(/* code here */) {
-
+    //const goals = data.map(game => [game["Home Team Goals"], game["Away Team Goals"]]);
     /* code here */
 
 }
